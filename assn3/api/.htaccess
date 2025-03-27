@@ -1,0 +1,20 @@
+<Limit POST PUT PATCH DELETE GET>
+  Require all granted
+</Limit>
+
+# Enable Apache rewrite engine
+RewriteEngine On
+
+# Turn on Auth Header
+RewriteCond %{HTTP:Authorization} ^(.*)
+RewriteRule .* - [e=HTTP_AUTHORIZATION:%1]
+
+# Set the base directory for rewrite to the folder your API is in
+RewriteBase /~ahmedsaleh/3430/assn/assn3/api/
+
+# Deliver the folder or file directly if it exists
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+
+# Push every request to index.php
+RewriteRule ^(.*)$ index.php [QSA,L]
